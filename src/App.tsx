@@ -7,7 +7,13 @@ import { useLocation } from "react-router-dom";
 import CustomCursor from "@/components/feature/CustomCursor";
 
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, search, hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      window.history.replaceState(null, "", `${pathname}${search}`);
+    }
+  }, [hash, pathname, search]);
 
   useEffect(() => {
     window.scrollTo(0, 0);

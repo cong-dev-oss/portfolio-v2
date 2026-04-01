@@ -80,7 +80,16 @@ export default function PortfolioNavbar() {
   const [activeSection, setActiveSection] = useState('');
   
   useEffect(() => {
-    const handle = () => setIsScrolled(window.scrollY > 60);
+    const handle = () => {
+      const scrollY = window.scrollY;
+      setIsScrolled(scrollY > 60);
+
+      if (scrollY < window.innerHeight * 0.6) {
+        setActiveSection('');
+      }
+    };
+
+    handle();
     window.addEventListener('scroll', handle);
     
     // Intersection Observer for active section tracking
@@ -113,11 +122,24 @@ export default function PortfolioNavbar() {
     };
   }, []);
 
+  const handleBackToTop = () => {
+    setMenuOpen(false);
+    setActiveSection('');
+    window.history.replaceState(null, '', window.location.pathname);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleNavClick = (href: string) => {
     setMenuOpen(false);
     const id = href.replace('#', '');
     const el = document.getElementById(id);
     if (el) {
+      window.history.replaceState(null, '', `#${id}`);
+
+      if (id === 'about') {
+        window.dispatchEvent(new Event('portfolio:reveal-about'));
+      }
+
       const offset = 80; // height of the fixed navbar
       const bodyRect = document.body.getBoundingClientRect().top;
       const elementRect = el.getBoundingClientRect().top;
@@ -144,7 +166,7 @@ export default function PortfolioNavbar() {
 
           {/* ── logo ── */}
           <button
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            onClick={handleBackToTop}
             className="flex items-center gap-2 cursor-pointer group"
             aria-label="Về trang chủ"
           >

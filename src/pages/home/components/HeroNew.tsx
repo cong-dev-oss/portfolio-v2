@@ -275,6 +275,7 @@ export default function HeroNew() {
   const [doorDone, setDoorDone] = useState(false);
 
   const opacityRevealRef  = useRef<HTMLParagraphElement>(null);
+  const prologueTriggerRef = useRef<ScrollTrigger | null>(null);
   const doorOverlayRef    = useRef<HTMLDivElement>(null);
   const doorLeftRef       = useRef<HTMLDivElement>(null);
   const doorRightRef      = useRef<HTMLDivElement>(null);
@@ -289,6 +290,39 @@ export default function HeroNew() {
   const titleWrapRef      = useRef<HTMLDivElement>(null);
   const scrollHintRef     = useRef<HTMLDivElement>(null);
   const compassWrapRef    = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const revealSummaryImmediately = () => {
+      const text = opacityRevealRef.current;
+      if (!text) return;
+
+      prologueTriggerRef.current?.kill();
+      prologueTriggerRef.current = null;
+
+      const charEls = text.querySelectorAll('.char');
+      if (charEls.length > 0) {
+        gsap.set(charEls, { opacity: 1 });
+      } else {
+        text.textContent = SUMMARY_TEXT;
+      }
+
+      gsap.set(text, { opacity: 1, scale: 1, clearProps: 'transform' });
+    };
+
+    const handleImmediateReveal = () => {
+      requestAnimationFrame(revealSummaryImmediately);
+    };
+
+    window.addEventListener('portfolio:reveal-about', handleImmediateReveal);
+
+    if (window.location.hash === '#about') {
+      handleImmediateReveal();
+    }
+
+    return () => {
+      window.removeEventListener('portfolio:reveal-about', handleImmediateReveal);
+    };
+  }, []);
 
   /* ── Door loading ── */
   useEffect(() => {
@@ -412,21 +446,32 @@ export default function HeroNew() {
         .map((c) => (c === ' ' ? '<span class="char">&nbsp;</span>' : `<span class="char">${c}</span>`))
         .join('');
       const charEls = text.querySelectorAll('.char');
-      gsap.set(charEls, { opacity: 0.1 });
-      ScrollTrigger.create({
-        trigger: '.section-stick-port',
-        pin: true,
-        start: 'center center',
-        end: '+=1800',
-        scrub: 1,
-        animation: gsap.timeline()
-          .to(charEls, { opacity: 1, duration: 1, ease: 'none', stagger: 1 })
-          .to({}, { duration: 10 })
-          .to('.opacity-reveal', { opacity: 0, scale: 1.04, duration: 50 }),
-      });
+      const shouldRevealImmediately = window.location.hash === '#about';
+
+      if (shouldRevealImmediately) {
+        gsap.set(charEls, { opacity: 1 });
+        gsap.set(text, { opacity: 1, scale: 1, clearProps: 'transform' });
+      } else {
+        gsap.set(charEls, { opacity: 0.1 });
+        prologueTriggerRef.current = ScrollTrigger.create({
+          trigger: '.section-stick-port',
+          pin: true,
+          start: 'center center',
+          end: '+=1800',
+          scrub: 1,
+          animation: gsap.timeline()
+            .to(charEls, { opacity: 1, duration: 1, ease: 'none', stagger: 1 })
+            .to({}, { duration: 10 })
+            .to('.opacity-reveal', { opacity: 0, scale: 1.04, duration: 50 }),
+        });
+      }
     }
 
-    return () => ctx.revert();
+    return () => {
+      prologueTriggerRef.current?.kill();
+      prologueTriggerRef.current = null;
+      ctx.revert();
+    };
   }, [doorDone]);
 
   return (
