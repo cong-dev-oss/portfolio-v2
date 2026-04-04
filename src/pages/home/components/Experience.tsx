@@ -79,8 +79,8 @@ const ports = [
     icon: 'ri-ship-2-line',
     year: '2021',
     points: [
-      'Thiết kế payment flow idempotent + retry-safe cho hệ thống đa quốc gia (Stripe, PayPal, SePay), xử lý webhook không duplicate transaction.',
-      'Xây dựng state synchronization real-time giữa payment & booking và kiến trúc domain service tách biệt (Pricing, Booking, Payment), giảm lỗi trạng thái xuống gần 0%.',
+      'Thiết kế payment flow theo hướng idempotent và retry-safe cho hệ thống đa thị trường, tích hợp Stripe, PayPal và SePay, đồng thời kiểm soát webhook để tránh phát sinh giao dịch trùng lặp.',
+      'Xây dựng cơ chế đồng bộ trạng thái theo thời gian thực giữa payment và booking, đồng thời tách biệt domain service cho Pricing, Booking và Payment để tăng độ ổn định và khả năng mở rộng.',
     ],
     tags: ['Stripe', 'PayPal', 'SePay', 'DDD', 'SignalR'],
   },
@@ -91,8 +91,8 @@ const ports = [
     icon: 'ri-leaf-line',
     year: '2022',
     points: [
-      'Áp dụng DDD-lite tách logic tính toán phát thải phức tạp & tối ưu SQL query/indexing, giảm thời gian tổng hợp báo cáo từ 50–70%.',
-      'Thiết kế dashboard linh hoạt để hệ thống dễ bảo trì và mở rộng module mới theo nhiều bộ ngành.',
+      'Áp dụng DDD-lite để tách biệt nghiệp vụ tính toán phát thải và tối ưu SQL query cùng indexing, giúp rút ngắn đáng kể thời gian tổng hợp báo cáo.',
+      'Thiết kế dashboard theo hướng linh hoạt và dễ mở rộng, hỗ trợ hệ thống thích ứng tốt hơn với nhu cầu triển khai cho nhiều đơn vị và lĩnh vực quản lý.',
     ],
     tags: ['DDD-lite', 'SQL Optimization', 'Dashboard', 'Reporting'],
   },
@@ -103,8 +103,8 @@ const ports = [
     icon: 'ri-hospital-line',
     year: '2023',
     points: [
-      'Xây dựng API Gateway kết nối đa hệ thống y tế, background workers & WebSocket xử lý đồng bộ real-time.',
-      'Chuẩn hóa geospatial data & tối ưu API format, tăng tốc độ hiển thị biểu đồ Highcharts trên frontend.',
+      'Xây dựng API Gateway kết nối nhiều hệ thống y tế, kết hợp background workers và WebSocket để xử lý các luồng đồng bộ thời gian thực.',
+      'Chuẩn hóa dữ liệu geospatial và tối ưu cấu trúc API, cải thiện hiệu năng hiển thị biểu đồ và trải nghiệm sử dụng trên frontend.',
     ],
     tags: ['API Gateway', 'WebSocket', 'Highcharts', 'Geospatial'],
   },
@@ -231,7 +231,7 @@ export default function Experience() {
               className="text-sm leading-relaxed italic"
               style={{ color: '#6B4820', fontFamily: '"Be Vietnam Pro", sans-serif', maxWidth: 380 }}
             >
-              "Hải trình 4 năm — từ AMITECH đến những cảng đến chưa từng được vẽ trên bản đồ."
+              "Hành trình phát triển chuyên môn qua các hệ thống thực tế, nơi mỗi giai đoạn đều góp phần mở rộng tư duy kỹ thuật và năng lực triển khai."
             </p>
 
             <div className="mt-4 flex items-center gap-3">
@@ -241,7 +241,7 @@ export default function Experience() {
               >
                 <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse inline-block" />
                 <span className="text-xs font-semibold" style={{ color: '#8B2010', fontFamily: 'monospace' }}>
-                  AMITECH · 06/2021 — Present
+                  AMITECH · 06/2021 - Hiện tại
                 </span>
               </div>
             </div>
@@ -402,7 +402,7 @@ export default function Experience() {
                   border: '1px dashed rgba(58,40,16,0.2)',
                 }}
               >
-                ✦ &nbsp;Hải trình vẫn đang tiếp diễn — những vùng biển mới đang chờ được khám phá...
+                ✦ &nbsp;Hành trình vẫn đang tiếp tục, với những bài toán mới và quy mô lớn hơn ở phía trước.
               </span>
             </div>
           </motion.div>

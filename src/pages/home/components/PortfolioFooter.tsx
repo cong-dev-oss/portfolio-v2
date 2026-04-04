@@ -217,10 +217,10 @@ function ThankYouMessage() {
         — Nhật Ký Hàng Hải —
       </p>
       <h3 style={{ fontFamily:'Cormorant SC,serif', fontSize:32, color:'#FFFAEE', letterSpacing:'0.07em', lineHeight:1.1, marginBottom:12 }}>
-        Cảm Ơn Bạn Đã Liên Hệ
+        Cảm ơn bạn đã liên hệ
       </h3>
       <p style={{ fontFamily: '"Be Vietnam Pro", sans-serif', fontStyle: 'italic', fontSize: 15, color: 'rgba(220,200,160,0.7)', maxWidth: 340, lineHeight: 1.75 }}>
-        Tôi đã nhận được thư của bạn và sẽ phản hồi lại trong thời gian sớm nhất có thể. Đây là tin nhắn tự động, vui lòng không trả lời. Trân trọng!
+        Tôi đã nhận được thông tin của bạn và sẽ phản hồi trong thời gian sớm nhất. Cảm ơn bạn đã dành thời gian kết nối.
       </p>
       <div className="flex items-center gap-2 mt-5" style={{ opacity:0.4 }}>
         <span style={{ width:20, height:1, background:'rgba(242,200,74,0.5)' }} />
@@ -233,24 +233,24 @@ function ThankYouMessage() {
 
 /* ── validation helpers ───────────────────────────────── */
 function validateName(v: string) {
-  if (!v.trim()) return 'Bạn chưa cho mình biết tên — viết tên vào đây nhé!';
-  if (v.trim().length < 2) return 'Tên cần ít nhất 2 ký tự.';
+  if (!v.trim()) return 'Vui lòng nhập họ và tên của bạn.';
+  if (v.trim().length < 2) return 'Tên cần có ít nhất 2 ký tự.';
   return '';
 }
 
 function validateContact(v: string) {
-  if (!v.trim()) return 'Điền email hoặc SĐT để mình có thể hồi âm nhé!';
+  if (!v.trim()) return 'Vui lòng để lại email hoặc số điện thoại để mình có thể phản hồi.';
   const emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phoneReg = /^(\+84|0)[0-9]{8,10}$/;
   if (!emailReg.test(v.trim()) && !phoneReg.test(v.trim().replace(/[\s.]/g, '')))
-    return 'Email chưa đúng định dạng hoặc SĐT chưa hợp lệ — thử lại nhé!';
+    return 'Email hoặc số điện thoại chưa đúng định dạng.';
   return '';
 }
 
 function validateMessage(v: string) {
-  if (!v.trim()) return 'Bạn muốn nói gì với mình? Viết vào đây nhé!';
-  if (v.trim().length < 10) return 'Nội dung quá ngắn — hãy viết thêm một chút!';
-  if (v.length > 500) return 'Nội dung vượt quá 500 ký tự rồi, rút gọn lại nhé!';
+  if (!v.trim()) return 'Vui lòng nhập nội dung tin nhắn.';
+  if (v.trim().length < 10) return 'Nội dung cần có ít nhất 10 ký tự.';
+  if (v.length > 500) return 'Nội dung không được vượt quá 500 ký tự.';
   return '';
 }
 
@@ -360,7 +360,7 @@ function VintageLetterForm() {
 
               {/* to field */}
               <div style={{ marginBottom:16, paddingRight:110 }}>
-                <p style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 10, color: 'rgba(139,94,60,0.52)', letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 2 }}>Gửi tới</p>
+                <p style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 10, color: 'rgba(139,94,60,0.52)', letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 2 }}>Người nhận</p>
                 <p style={{ fontFamily:'Cormorant SC,serif', fontSize:16, color:'#3B1E08', fontWeight:700, letterSpacing:'0.05em' }}>Vũ Chí Công</p>
                 <p style={{ fontFamily: '"Be Vietnam Pro", sans-serif', fontSize: 12, fontStyle: 'italic', color: 'rgba(139,94,60,0.6)' }}>Senior Fullstack Developer · HCMC</p>
               </div>
@@ -369,11 +369,11 @@ function VintageLetterForm() {
 
               <form id="vintage-contact-form" data-readdy-form>
                 <div style={{ marginBottom:14 }}>
-                  <label style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 10, color: 'rgba(139,94,60,0.58)', letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginBottom: 3 }}>Mình là</label>
+                  <label style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 10, color: 'rgba(139,94,60,0.58)', letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginBottom: 3 }}>Họ và tên</label>
                   <input
                     type="text" name="name" value={formData.name}
                     onChange={handleChange} onBlur={handleBlur} required
-                    placeholder="Tên của bạn..."
+                    placeholder="Nhập họ và tên của bạn"
                     style={{ ...lineStyle, borderBottomColor: errors.name ? 'rgba(180,60,40,0.7)' : 'rgba(139,94,60,0.28)' }}
                   />
                   {errors.name && (
@@ -384,11 +384,11 @@ function VintageLetterForm() {
                   )}
                 </div>
                 <div style={{ marginBottom:14 }}>
-                  <label style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 10, color: 'rgba(139,94,60,0.58)', letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginBottom: 3 }}>Liên lạc qua</label>
+                  <label style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 10, color: 'rgba(139,94,60,0.58)', letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginBottom: 3 }}>Thông tin liên hệ</label>
                   <input
                     type="text" name="contact" value={formData.contact}
                     onChange={handleChange} onBlur={handleBlur} required
-                    placeholder="Email hoặc SĐT..."
+                    placeholder="Email hoặc số điện thoại"
                     style={{ ...lineStyle, borderBottomColor: errors.contact ? 'rgba(180,60,40,0.7)' : 'rgba(139,94,60,0.28)' }}
                   />
                   {errors.contact && (
@@ -399,12 +399,12 @@ function VintageLetterForm() {
                   )}
                 </div>
                 <div style={{ marginBottom:12 }}>
-                  <label style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 10, color: 'rgba(139,94,60,0.58)', letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginBottom: 3 }}>Mình muốn nói</label>
+                  <label style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 10, color: 'rgba(139,94,60,0.58)', letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginBottom: 3 }}>Nội dung</label>
                   <textarea
                     name="message" value={formData.message}
                     onChange={handleChange} onBlur={handleBlur}
                     required maxLength={500} rows={4}
-                    placeholder="Hey Công, tao muốn nói về..."
+                    placeholder="Chia sẻ ngắn gọn về nhu cầu hoặc dự án của bạn"
                     className="no-scrollbar"
                     style={{ ...lineStyle, resize:'none', borderBottom: errors.message ? '1px solid rgba(180,60,40,0.7)' : '1px solid rgba(139,94,60,0.28)', backgroundImage:'repeating-linear-gradient(transparent,transparent 24px,rgba(139,94,60,0.09) 24px,rgba(139,94,60,0.09) 25px)', lineHeight:'25px', paddingTop:4 }}
                   />
@@ -420,7 +420,7 @@ function VintageLetterForm() {
                 </div>
                 {/* signature */}
                 <div style={{ textAlign:'right', marginBottom:4 }}>
-                  <p style={{ fontFamily: '"Be Vietnam Pro", sans-serif', fontSize: 12, fontStyle: 'italic', color: 'rgba(139,94,60,0.42)' }}>Thân mến,</p>
+                  <p style={{ fontFamily: '"Be Vietnam Pro", sans-serif', fontSize: 12, fontStyle: 'italic', color: 'rgba(139,94,60,0.42)' }}>Trân trọng,</p>
                   <p style={{ fontFamily:'Cormorant SC,serif', fontSize:13, color:'rgba(139,94,60,0.5)', letterSpacing:'0.07em' }}>{formData.name || '_______________'}</p>
                 </div>
               </form>
@@ -647,7 +647,7 @@ export default function PortfolioFooter() {
             Kết Nối
           </h2>
           <p className="max-w-lg mx-auto text-sm" style={{ color:'rgba(220,200,160,0.65)', fontFamily:'Inter,sans-serif', fontWeight:300 }}>
-            Mỗi câu chuyện hay đều cần người kể tiếp. Nếu bạn có dự án thú vị — hãy để chúng ta cùng viết chương tiếp theo.
+            Nếu bạn đang tìm một người đồng hành cho sản phẩm, hệ thống hoặc bài toán kỹ thuật mới, tôi luôn sẵn sàng kết nối và trao đổi.
           </p>
         </motion.div>
 
@@ -671,7 +671,7 @@ export default function PortfolioFooter() {
             © 2026 Vũ Chí Công — All rights reserved.
           </p>
           <p className="text-sm" style={{ color:'rgba(200,180,140,0.35)' }}>
-            Đại đương không giới hạn — Thiết kế không biên giới.
+            Xây dựng giải pháp chỉn chu, bền vững và có thể mở rộng.
           </p>
         </div>
       </div>

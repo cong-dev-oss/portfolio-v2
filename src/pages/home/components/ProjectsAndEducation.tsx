@@ -162,9 +162,9 @@ const projects = [
     icon: 'ri-terminal-box-line',
     tags: ['Ubuntu Server', 'Docker', 'Jenkins', 'GitLab CI', 'Cloudflare'],
     logEntries: [
-      'Xây dựng Server Ubuntu cá nhân với CI/CD pipeline tự động — mỗi lần push code là một lần thuyền ra khơi mà không cần tay lái.',
-      'Dockerized environment cho phép auto deploy tức thì, Cloudflare giữ SSL và DNS như neo thuyền vào cảng an toàn.',
-      'Tự chủ toàn bộ lifecycle: từ lúc viết dòng code đầu tiên đến khi sản phẩm chạy trên server — không phụ thuộc bất kỳ ai.',
+      'Thiết kế và vận hành hạ tầng Ubuntu Server cá nhân với CI/CD pipeline tự động, giúp quy trình triển khai diễn ra nhanh, ổn định và giảm tối đa thao tác thủ công.',
+      'Chuẩn hóa môi trường bằng Docker để đảm bảo tính nhất quán giữa các lần build và deploy, đồng thời sử dụng Cloudflare cho DNS, SSL và lớp bảo vệ truy cập.',
+      'Chủ động quản lý toàn bộ vòng đời sản phẩm từ phát triển, đóng gói, triển khai đến vận hành thực tế, thể hiện khả năng làm chủ cả khía cạnh kỹ thuật lẫn hạ tầng.',
     ],
     highlights: [
       'Full CI/CD automation · GitLab + Jenkins',
@@ -173,6 +173,44 @@ const projects = [
       'Lifecycle tự chủ: code → build → ship',
     ],
     link: 'victorvu-my-portfolio.info',
+  },
+  {
+    title: 'NewsAI',
+    voyageCode: 'VGE-2026-002',
+    category: 'Nền tảng AI tổng hợp và quản trị tin tức',
+    icon: 'ri-newspaper-line',
+    tags: ['Next.js', 'FastAPI', 'PostgreSQL', 'Celery', 'Redis', 'OpenAI API', 'TTS'],
+    logEntries: [
+      'Xây dựng NewsAI như một nền tảng xử lý và quản trị tin tức theo pipeline hoàn chỉnh, bao gồm crawl bài viết, trích xuất nội dung, tóm tắt bằng AI, tạo audio và theo dõi toàn bộ tiến trình trên giao diện quản trị.',
+      'Tổ chức kiến trúc theo hướng tách lớp với frontend Next.js, backend FastAPI cùng SQLAlchemy và PostgreSQL, trong khi các tác vụ nền được xử lý qua Celery và Redis để tối ưu hiệu năng vận hành.',
+      'Định hướng sản phẩm hóa rõ ràng với khả năng cấu hình nguồn tin, chủ đề và lịch chạy, tạo nền tảng phù hợp cho cả nhu cầu nội bộ lẫn khả năng mở rộng thành sản phẩm SaaS quy mô nhỏ.',
+    ],
+    highlights: [
+      'Pipeline nội dung: crawl -> extract -> summarize -> audio',
+      'Admin dashboard theo dõi và điều phối tiến trình xử lý',
+      'Kiến trúc tách lớp: models · schemas · services · api',
+      'Sẵn sàng mở rộng kiểm duyệt nội dung và đánh giá nguồn tin',
+    ],
+    linkLabel: 'Self-hosted platform',
+  },
+  {
+    title: 'AI Tutor',
+    voyageCode: 'VGE-2026-003',
+    category: 'Nền tảng học tập AI cá nhân hóa',
+    icon: 'ri-book-open-line',
+    tags: ['.NET 9', 'Semantic Kernel', 'Qdrant', 'SignalR', 'React', 'TypeScript', 'Ollama'],
+    logEntries: [
+      'Xây dựng AI Tutor như một nền tảng học tập cá nhân hóa, kết hợp Retrieval-Augmented Generation với phương pháp Socratic để tạo trải nghiệm tương tác và dẫn dắt người học theo chiều sâu.',
+      'Triển khai Clean Architecture trên .NET 9 để giữ domain rõ ràng và dễ bảo trì, đồng thời sử dụng Semantic Kernel cho AI orchestration, Qdrant cho vector search và SignalR cho hội thoại thời gian thực.',
+      'Thiết kế theo hướng local-first, cho phép hệ thống chạy offline với Ollama nhưng vẫn sẵn sàng tích hợp Gemini hoặc OpenAI khi cần mở rộng khả năng xử lý trên cloud.',
+    ],
+    highlights: [
+      'RAG + Socratic learning cho trải nghiệm học tập tương tác',
+      'Clean Architecture và modular monolith dễ bảo trì',
+      'Local-first: offline với Ollama, online với Gemini/OpenAI',
+      'Phù hợp cho cả containerized và standalone deployment',
+    ],
+    linkLabel: 'Private learning platform',
   },
 ];
 
@@ -358,8 +396,8 @@ export default function ProjectsAndEducation() {
               className="text-base italic max-w-xl"
               style={{ color: 'rgba(14,58,96,0.75)', fontFamily: '"Be Vietnam Pro", sans-serif', lineHeight: 1.8 }}
             >
-              "Những dự án cá nhân — nơi tôi ra khơi không vì yêu cầu,<br />
-              mà vì tiếng gọi của biển cả và khát vọng tự do."
+              "Những dự án cá nhân được xây dựng từ nhu cầu khám phá công nghệ,<br />
+              tư duy sản phẩm và mong muốn làm chủ toàn bộ quá trình triển khai."
             </p>
           </motion.div>
 
@@ -413,22 +451,38 @@ export default function ProjectsAndEducation() {
                           </div>
                         </div>
                       </div>
-                      <a
-                        href={`https://${proj.link}`}
-                        target="_blank"
-                        rel="nofollow noreferrer"
-                        className="flex items-center gap-2 text-sm px-4 py-2 rounded-sm transition-all whitespace-nowrap cursor-pointer"
-                        style={{
-                          color: '#1A6898',
-                          border: '1px solid rgba(42,130,184,0.35)',
-                          background: 'rgba(42,130,184,0.06)',
-                          fontFamily: 'monospace',
-                          fontSize: '0.75rem',
-                        }}
-                      >
-                        <i className="ri-compass-3-line" />
-                        {proj.link}
-                      </a>
+                      {proj.link ? (
+                        <a
+                          href={`https://${proj.link}`}
+                          target="_blank"
+                          rel="nofollow noreferrer"
+                          className="flex items-center gap-2 text-sm px-4 py-2 rounded-sm transition-all whitespace-nowrap cursor-pointer"
+                          style={{
+                            color: '#1A6898',
+                            border: '1px solid rgba(42,130,184,0.35)',
+                            background: 'rgba(42,130,184,0.06)',
+                            fontFamily: 'monospace',
+                            fontSize: '0.75rem',
+                          }}
+                        >
+                          <i className="ri-compass-3-line" />
+                          {proj.link}
+                        </a>
+                      ) : (
+                        <div
+                          className="flex items-center gap-2 text-sm px-4 py-2 rounded-sm whitespace-nowrap"
+                          style={{
+                            color: '#1A6898',
+                            border: '1px solid rgba(42,130,184,0.22)',
+                            background: 'rgba(42,130,184,0.04)',
+                            fontFamily: 'monospace',
+                            fontSize: '0.75rem',
+                          }}
+                        >
+                          <i className="ri-radar-line" />
+                          {proj.linkLabel ?? 'Private voyage'}
+                        </div>
+                      )}
                     </div>
 
                     {/* rope divider */}

@@ -364,7 +364,7 @@ export default function Skills() {
               className="text-sm italic leading-relaxed"
               style={{ color: 'rgba(220,190,120,0.65)', fontFamily: '"Be Vietnam Pro", sans-serif' }}
             >
-              "Danh sách hàng hoá — những kỹ năng và kiến trúc đã mài giũa qua từng chuyến hải trình — được chất lên boong tàu, sẵn sàng cho cuộc viễn du tiếp theo."
+              "Tập hợp các kỹ năng cốt lõi, công cụ triển khai và tư duy kiến trúc được tích lũy qua những dự án thực tế."
             </p>
           </div>
 
@@ -372,8 +372,8 @@ export default function Skills() {
           <div className="flex flex-wrap gap-4 mt-6">
             {[
               { label: 'Số kiện hàng', value: '06 CRATES' },
-              { label: 'Trọng tải',    value: '4+ YRS BATTLE' },
-              { label: 'Tình trạng',   value: 'READY TO SAIL' },
+              { label: 'Kinh nghiệm',  value: '4+ YEARS' },
+              { label: 'Trạng thái',   value: 'READY FOR SCALE' },
             ].map((item, i) => (
               <div
                 key={i}
@@ -453,7 +453,7 @@ export default function Skills() {
               className="text-xs mt-1 italic"
               style={{ color: 'rgba(200,180,100,0.5)', fontFamily: '"Be Vietnam Pro", sans-serif' }}
             >
-              Những kiện hàng đang được đóng gói cho chuyến hải hành kế tiếp...
+              Những định hướng đang được đầu tư để mở rộng chiều sâu kỹ thuật trong giai đoạn tiếp theo.
             </p>
           </div>
 

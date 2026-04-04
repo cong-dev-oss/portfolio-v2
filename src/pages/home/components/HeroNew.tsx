@@ -6,9 +6,9 @@ import './HeroNew.css';
 gsap.registerPlugin(ScrollTrigger);
 
 const SUMMARY_TEXT =
-  'Lập trình viên Fullstack với hơn 4 năm kinh nghiệm thực chiến trên .NET Core & Spring Boot — ' +
-  'định hướng Solution Architect. Thế mạnh DDD, CQRS, tích hợp Stripe · PayPal · AI (RAG / Vector DB) ' +
-  'và vận hành hạ tầng server với CI/CD tự động hóa từ code đến deploy.';
+  'Senior Fullstack Developer với hơn 4 năm kinh nghiệm xây dựng và phát triển hệ thống trên .NET Core và Spring Boot, ' +
+  'định hướng Solution Architect. Tập trung vào DDD, CQRS, tích hợp thanh toán, AI ứng dụng (RAG, Vector Database) ' +
+  'và hạ tầng triển khai tự động, với khả năng đồng hành xuyên suốt từ thiết kế hệ thống đến vận hành thực tế.';
 
 /* ─── Door Compass Rose ──────────────────── */
 function DoorCompassRose({ size = 120, side = 'left' }: { size?: number; side?: 'left' | 'right' }) {
@@ -106,11 +106,11 @@ function HeroCompassRose() {
 
 /* ─── Maritime Route SVG ─────────────────── */
 const WAYPOINTS = [
-  { x: 120, y: 720, label: 'Hà Nội · 2019',   sub: 'Bắt Đầu Hải Trình', icon: '⚓' },
-  { x: 340, y: 590, label: 'Intern · 2020',    sub: 'Backend Developer',  icon: '🏴' },
-  { x: 570, y: 470, label: 'Mid · 2021–22',    sub: '.NET & Spring Boot',  icon: '⛵' },
-  { x: 820, y: 370, label: 'Senior · 2023',    sub: 'Fullstack & DDD',     icon: '🧭' },
-  { x: 1080, y: 250, label: 'Hiện Tại · 2026', sub: 'Solution Architect',  icon: '★' },
+  { x: 120, y: 720, label: 'Hà Nội · 2019',   sub: 'Khởi đầu hành trình', icon: '⚓' },
+  { x: 340, y: 590, label: 'Intern · 2020',   sub: 'Backend Developer',   icon: '🏴' },
+  { x: 570, y: 470, label: 'Mid · 2021-22',   sub: '.NET & Spring Boot',  icon: '⛵' },
+  { x: 820, y: 370, label: 'Senior · 2023',   sub: 'Fullstack & DDD',     icon: '🧭' },
+  { x: 1080, y: 250, label: 'Hiện tại · 2026', sub: 'Định hướng Solution Architect', icon: '★' },
 ];
 
 const ROUTE_PATH = 'M 120,720 C 220,670 280,630 340,590 C 420,545 490,505 570,470 C 660,430 740,410 820,370 C 920,328 990,290 1080,250';
@@ -443,7 +443,7 @@ export default function HeroNew() {
     if (text) {
       const chars = text.textContent?.split('') || [];
       text.innerHTML = chars
-        .map((c) => (c === ' ' ? '<span class="char">&nbsp;</span>' : `<span class="char">${c}</span>`))
+        .map((c) => (c === ' ' ? '<span class="char char--space"> </span>' : `<span class="char">${c}</span>`))
         .join('');
       const charEls = text.querySelectorAll('.char');
       const shouldRevealImmediately = window.location.hash === '#about';
@@ -500,7 +500,7 @@ export default function HeroNew() {
           <div className="door-monogram" ref={doorMonogramRef}
             style={{ transform: 'translate(-50%, calc(-50% + 14px))' }}>
             <i className="door-monogram__quill ri-quill-pen-line" />
-            <span className="door-monogram__label">Câu Chuyện Của</span>
+            <span className="door-monogram__label">Hồ Sơ Năng Lực</span>
             <span className="door-monogram__name">Vũ Chí Công</span>
             <span className="door-monogram__role">Senior Fullstack Developer</span>
             <span className="door-monogram__line" />
@@ -543,7 +543,7 @@ export default function HeroNew() {
           <div className="hero__title-wrap" ref={titleWrapRef}>
             <div className="hero__title-badge">
               <i className="ri-map-pin-2-line" style={{ marginRight: 7, color: 'rgba(201,162,39,0.8)' }} />
-              <span>Nhật Ký Hàng Hải · Portfolio 2026</span>
+              <span>Portfolio cá nhân · 2026</span>
             </div>
             <h1 className="hero__title">
               Vũ Chí Công
@@ -555,14 +555,14 @@ export default function HeroNew() {
               <span className="hero__title-div-line" />
             </div>
             <p className="hero__title-tagline">
-              "Mỗi dòng code là một chuyến ra khơi — mỗi sản phẩm là một bến cảng mới"
+              "Xây dựng sản phẩm bền vững bằng tư duy hệ thống, chất lượng kỹ thuật và khả năng triển khai thực tế."
             </p>
           </div>
 
           {/* Scroll hint */}
           {doorDone && (
             <div className="hero-scroll-down" ref={scrollHintRef}>
-              <span className="scroll-label">Lật trang đầu tiên</span>
+              <span className="scroll-label">Khám phá hồ sơ</span>
               <div className="scroll-mouse"><div className="scroll-wheel" /></div>
               <div className="scroll-chevrons"><span /><span /><span /></div>
             </div>
@@ -574,7 +574,7 @@ export default function HeroNew() {
           <div className="prologue-header" style={{ maxWidth: '48rem', width: '100%' }}>
             <div className="prologue-header__rule" />
             <i className="prologue-header__quill ri-quill-pen-line" />
-            <span className="prologue-header__text">Lời Mở Đầu</span>
+            <span className="prologue-header__text">Tổng Quan</span>
             <i className="prologue-header__quill ri-quill-pen-line" style={{ transform: 'scaleX(-1)' }} />
             <div className="prologue-header__rule" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,160,60,0.4))' }} />
           </div>
