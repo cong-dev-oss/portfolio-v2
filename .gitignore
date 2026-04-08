@@ -20,3 +20,8 @@ Thumbs.db
 
 .idea/
 .vscode/
+
+# Ignore outputs & templates
+demo-templates/
+out/
+build/
