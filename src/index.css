@@ -85,8 +85,25 @@ body {
   cursor: none;
 }
 
-*, *::before, *::after {
-  cursor: none !important;
+/* Custom cursor only for desktop/pointing devices */
+@media (pointer: fine) {
+  *, *::before, *::after {
+    cursor: none !important;
+  }
+}
+
+/* Restore system cursor for touch devices to avoid interaction bugs */
+@media (pointer: coarse) {
+  body, *, *::before, *::after {
+    cursor: auto !important;
+  }
+}
+
+/* Fix mobile input zoom on focus (requires min 16px) */
+@media screen and (max-width: 767px) {
+  input, textarea, select {
+    font-size: 16px !important;
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {

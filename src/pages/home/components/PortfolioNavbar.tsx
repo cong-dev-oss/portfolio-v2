@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const navLinks = [
@@ -78,6 +78,7 @@ export default function PortfolioNavbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen]   = useState(false);
   const [activeSection, setActiveSection] = useState('');
+  const headerRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     const handle = () => {
@@ -130,39 +131,38 @@ export default function PortfolioNavbar() {
   };
 
   const handleNavClick = (href: string) => {
-    setMenuOpen(false);
     const id = href.replace('#', '');
     const el = document.getElementById(id);
-    if (el) {
-      window.history.replaceState(null, '', `#${id}`);
+    const headerHeight = headerRef.current?.offsetHeight ?? 80;
 
-      if (id === 'about') {
-        window.dispatchEvent(new Event('portfolio:reveal-about'));
-      }
+    setMenuOpen(false);
+    if (!el) return;
 
-      const offset = 80; // height of the fixed navbar
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = el.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
+    window.history.replaceState(null, '', `#${id}`);
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
+    if (id === 'about') {
+      window.dispatchEvent(new Event('portfolio:reveal-about'));
     }
+
+    requestAnimationFrame(() => {
+      const targetPosition = el.getBoundingClientRect().top + window.scrollY - headerHeight;
+      window.scrollTo({
+        top: Math.max(0, targetPosition),
+        behavior: 'smooth',
+      });
+    });
   };
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-[1000] transition-all duration-500 ${
         isScrolled
           ? 'bg-port-navy/95 backdrop-blur-md border-b border-port-gold/20'
           : 'bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex items-center justify-between h-20">
+        <div ref={headerRef} className="flex items-center justify-between h-20">
 
           {/* ── logo ── */}
           <button
@@ -229,10 +229,11 @@ export default function PortfolioNavbar() {
 
           {/* ── hamburger ── */}
           <button
-            className="md:hidden w-8 h-8 flex items-center justify-center text-port-star cursor-pointer"
+            className="md:hidden w-11 h-11 flex items-center justify-center text-port-star cursor-pointer z-[1001]"
             onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
           >
-            <i className={menuOpen ? 'ri-close-line text-xl' : 'ri-menu-line text-xl'} />
+            <i className={menuOpen ? 'ri-close-line text-2xl' : 'ri-menu-line text-2xl'} />
           </button>
         </div>
       </div>
@@ -244,7 +245,7 @@ export default function PortfolioNavbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-port-navy border-t border-port-gold/20 px-6 py-4 overflow-hidden"
+            className="md:hidden bg-port-navy border-t border-port-gold/20 px-6 py-4 overflow-hidden relative z-[1010]"
           >
             {navLinks.map((link) => {
               const isActive = activeSection === link.href.replace('#', '');
@@ -252,8 +253,8 @@ export default function PortfolioNavbar() {
                 <button
                   key={link.href}
                   onClick={() => handleNavClick(link.href)}
-                  className={`block w-full text-left py-3 transition-colors text-sm cursor-pointer ${
-                    isActive ? 'text-port-gold font-bold' : 'text-port-silver/80'
+                  className={`block w-full text-left py-4 transition-colors text-sm cursor-pointer relative z-[1011] touch-manipulation ${
+                    isActive ? 'text-port-gold font-bold' : 'text-port-silver/80 hover:text-port-gold'
                   }`}
                 >
                   <div className="flex items-center justify-between">

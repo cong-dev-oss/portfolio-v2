@@ -11,7 +11,12 @@ const CustomCursor = () => {
   );
   const rafId = useRef<number>(0);
 
+  // Don't render on mobile/touch devices
+  const isTouch = typeof window !== 'undefined' && 
+    (window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window);
+
   useEffect(() => {
+    if (isTouch) return;
     // Cursor follows mouse INSTANTLY — no easing, no lag feel
     const onMouseMove = (e: MouseEvent) => {
       mouseRef.current = { x: e.clientX, y: e.clientY };
@@ -52,7 +57,9 @@ const CustomCursor = () => {
       window.removeEventListener('mousemove', onMouseMove);
       cancelAnimationFrame(rafId.current);
     };
-  }, []);
+  }, [isTouch]);
+
+  if (isTouch) return null;
 
   return (
     <div

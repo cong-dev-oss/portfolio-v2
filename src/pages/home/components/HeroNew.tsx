@@ -674,6 +674,7 @@ export default function HeroNew() {
               maxWidth: '90vw',
               width: '90vw',
               gap: '6px',
+              pointerEvents: 'none',
             } : undefined}
           >
             <div className="hero__title-badge">
