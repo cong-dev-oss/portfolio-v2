@@ -104,7 +104,7 @@ function HeroCompassRose() {
   );
 }
 
-/* ─── Maritime Route SVG ─────────────────── */
+/* ─── Maritime Route SVG (desktop — diagonal) ─── */
 const WAYPOINTS = [
   { x: 120, y: 720, label: 'Hà Nội · 2019',   sub: 'Khởi đầu hành trình', icon: '⚓' },
   { x: 340, y: 590, label: 'Intern · 2020',   sub: 'Backend Developer',   icon: '🏴' },
@@ -270,9 +270,165 @@ function MaritimeRoute({ visible }: { visible: boolean }) {
   );
 }
 
+/* ─── Maritime Route (mobile — vertical winding path) ─── */
+const WP_MOBILE = [
+  { x: 195, y: 310, year: '2019', label: 'Hà Nội',   sub: 'Khởi đầu',      icon: '⚓', side: 'right' as const },
+  { x: 140, y: 385, year: '2020', label: 'Intern',   sub: 'Backend Dev',   icon: '🏴', side: 'left'  as const },
+  { x: 250, y: 460, year: '2021', label: 'Mid',      sub: '.NET & Spring', icon: '⛵', side: 'right' as const },
+  { x: 140, y: 535, year: '2023', label: 'Senior',   sub: 'Fullstack+DDD', icon: '🧭', side: 'left'  as const },
+  { x: 195, y: 610, year: '2026', label: 'Hiện tại', sub: 'Architect',     icon: '★',  side: 'right' as const },
+];
+
+/* Highly systematic and compact winding path ending at y=610 */
+const MOBILE_V_ROUTE =
+  'M 195,310 ' +
+  'C 195,345 140,350 140,385 ' +
+  'C 140,420 250,425 250,460 ' +
+  'C 250,495 140,500 140,535 ' +
+  'C 140,570 195,575 195,610';
+
+function MaritimeMobileRoute({ visible }: { visible: boolean }) {
+  const pathRef   = useRef<SVGPathElement>(null);
+  const dotsRef   = useRef<SVGGElement>(null);
+  const labelsRef = useRef<SVGGElement>(null);
+
+  useEffect(() => {
+    if (!visible) {
+      if (pathRef.current) gsap.set(pathRef.current, { opacity: 0 });
+      return;
+    }
+    const path = pathRef.current;
+    if (!path) return;
+    const len = path.getTotalLength();
+    gsap.set(path, { strokeDasharray: len, strokeDashoffset: len, opacity: 1 });
+    const tl = gsap.timeline({ delay: 0.6 });
+    tl.to(path, { strokeDashoffset: 0, duration: 2.6, ease: 'power2.inOut' });
+    if (dotsRef.current) {
+      tl.to(dotsRef.current.querySelectorAll('.route-dot-m'), {
+        opacity: 1, scale: 1, duration: 0.35, stagger: 0.28, ease: 'back.out(1.8)',
+      }, '-=2.0');
+    }
+    if (labelsRef.current) {
+      tl.to(labelsRef.current.querySelectorAll('.route-lbl-m'), {
+        opacity: 1, x: 0, duration: 0.3, stagger: 0.28, ease: 'power2.out',
+      }, '-=1.8');
+    }
+  }, [visible]);
+
+  const BOX_W   = 76;
+  const BOX_H   = 34;
+
+  return (
+    <svg viewBox="0 0 390 844" className="hero-map-route-svg" preserveAspectRatio="xMidYMin meet">
+      {/* Grid */}
+      {[0, 1, 2, 3, 4, 5, 6].map(i => (
+        <line key={`v${i}`} x1={i * 65} y1={0} x2={i * 65} y2={844}
+          stroke="rgba(201,162,39,0.04)" strokeWidth="0.5" />
+      ))}
+      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
+        <line key={`h${i}`} x1={0} y1={i * 84} x2={390} y2={i * 84}
+          stroke="rgba(201,162,39,0.04)" strokeWidth="0.5" />
+      ))}
+
+      {/* Details */}
+      <text x={26} y={420} fontSize="9" fontFamily="Montserrat, sans-serif"
+        fill="rgba(201,162,39,0.05)" letterSpacing="5" transform="rotate(-90, 26, 420)">
+        NAVAL CARTOGRAPHY
+      </text>
+
+      {/* Ghost route path */}
+      <path d={MOBILE_V_ROUTE} stroke="rgba(201,162,39,0.08)" strokeWidth="1"
+        fill="none" strokeDasharray="3 4" />
+
+      {/* Animated route */}
+      <path ref={pathRef} d={MOBILE_V_ROUTE}
+        stroke="rgba(255,220,60,0.8)" strokeWidth="2.2" fill="none" strokeLinecap="round"
+        style={{ filter: 'drop-shadow(0 0 5px rgba(255,220,60,0.5))', opacity: 0 }}
+      />
+
+      {/* dots */}
+      <g ref={dotsRef}>
+        {WP_MOBILE.map((wp, i) => {
+          const isLast = i === WP_MOBILE.length - 1;
+          const r = isLast ? 10 : 6.5;
+          return (
+            <g key={i} className="route-dot-m"
+              style={{ opacity: 0, transformOrigin: `${wp.x}px ${wp.y}px` }}>
+              <circle cx={wp.x} cy={wp.y} r={r}
+                fill="rgba(6,13,31,0.95)"
+                stroke={isLast ? 'rgba(255,220,60,0.95)' : 'rgba(201,162,39,0.7)'}
+                strokeWidth={isLast ? 1.8 : 1.2}
+              />
+              {isLast ? (
+                <>
+                  <text x={wp.x} y={wp.y + 4} textAnchor="middle" fontSize="9" fill="rgba(255,220,60,0.95)">★</text>
+                  <circle cx={wp.x} cy={wp.y} r={r + 6} fill="none"
+                    stroke="rgba(255,220,60,0.18)" strokeWidth="0.8" className="pulse-ring-1" />
+                </>
+              ) : (
+                <text x={wp.x} y={wp.y + 3} textAnchor="middle" fontSize="6.5" fill="rgba(201,162,39,0.75)">{wp.icon}</text>
+              )}
+            </g>
+          );
+        })}
+      </g>
+
+      {/* labels */}
+      <g ref={labelsRef}>
+        {WP_MOBILE.map((wp, i) => {
+          const isRight = wp.side === 'right';
+          const isLast  = i === WP_MOBILE.length - 1;
+          const r       = isLast ? 10 : 6.5;
+          const gap     = 10;
+          const rX      = isRight ? wp.x + r + gap : wp.x - r - gap - BOX_W;
+          const rY      = wp.y - BOX_H / 2;
+          const initX   = isRight ? -6 : 6;
+
+          return (
+            <g key={i} className="route-lbl-m"
+              style={{ opacity: 0, transform: `translateX(${initX}px)`,
+                       transformOrigin: `${wp.x}px ${wp.y}px` }}>
+              <line x1={isRight ? wp.x + r : wp.x - r} y1={wp.y}
+                    x2={isRight ? rX : rX + BOX_W} y2={wp.y}
+                stroke="rgba(201,162,39,0.2)" strokeWidth="0.5" strokeDasharray="2 2" />
+              <rect x={rX} y={rY} width={BOX_W} height={BOX_H} rx="2"
+                fill="rgba(6,13,31,0.85)"
+                stroke={isLast ? 'rgba(255,220,60,0.4)' : 'rgba(201,162,39,0.2)'}
+                strokeWidth="0.6"
+              />
+              <text x={rX + BOX_W / 2} y={rY + 12} textAnchor="middle"
+                fontSize="7.5" fontFamily="Montserrat, sans-serif"
+                fill={isLast ? 'rgba(255,220,60,0.95)' : 'rgba(201,162,39,0.95)'}
+                fontWeight="700">{wp.label} {wp.year}
+              </text>
+              <text x={rX + BOX_W / 2} y={rY + 24} textAnchor="middle"
+                fontSize="6" fontFamily='"Be Vietnam Pro", sans-serif' fontStyle="italic"
+                fill="rgba(200,178,118,0.6)">{wp.sub}
+              </text>
+            </g>
+          );
+        })}
+      </g>
+    </svg>
+  );
+}
+
+
 /* ─── Main ─────────────────────────────── */
 export default function HeroNew() {
   const [doorDone, setDoorDone] = useState(false);
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' && window.innerWidth <= 767
+  );
+
+  /* Keep isMobile in sync with viewport resizes */
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)');
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
 
   const opacityRevealRef  = useRef<HTMLParagraphElement>(null);
   const prologueTriggerRef = useRef<ScrollTrigger | null>(null);
@@ -488,7 +644,10 @@ export default function HeroNew() {
 
           {/* Grid + Route SVG wrapper */}
           <div className="hero-route-wrap" ref={mapRouteWrapRef}>
-            <MaritimeRoute visible={doorDone} />
+            {isMobile
+              ? <MaritimeMobileRoute visible={doorDone} />
+              : <MaritimeRoute visible={doorDone} />
+            }
           </div>
 
           {/* Compass rose */}
@@ -502,8 +661,21 @@ export default function HeroNew() {
             <div className="hero-quill-ink-drop" />
           </div>
 
-          {/* Title — top left */}
-          <div className="hero__title-wrap" ref={titleWrapRef}>
+          {/* Title */}
+          <div
+            className="hero__title-wrap"
+            ref={titleWrapRef}
+            style={isMobile ? {
+              top: '64px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              textAlign: 'center',
+              alignItems: 'center',
+              maxWidth: '90vw',
+              width: '90vw',
+              gap: '6px',
+            } : undefined}
+          >
             <div className="hero__title-badge">
               <i className="ri-map-pin-2-line" style={{ marginRight: 7, color: 'rgba(201,162,39,0.8)' }} />
               <span>Portfolio cá nhân · 2026</span>

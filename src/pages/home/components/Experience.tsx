@@ -73,40 +73,40 @@ function PortDot({ label }: { label: string }) {
 /* ── Data ─────────────────────────────────────────── */
 const ports = [
   {
-    portName: 'Port of Green Ruby',
+    portName: 'Green Ruby — Cruise Booking',
     coords: '21°02\'N  105°51\'E',
-    subtitle: 'Cruise Booking System',
+    subtitle: 'Multi-market Booking & Payment Platform · AMITECH',
     icon: 'ri-ship-2-line',
-    year: '2021',
+    year: '2021 – nay',
     points: [
-      'Thiết kế payment flow theo hướng idempotent và retry-safe cho hệ thống đa thị trường, tích hợp Stripe, PayPal và SePay, đồng thời kiểm soát webhook để tránh phát sinh giao dịch trùng lặp.',
-      'Xây dựng cơ chế đồng bộ trạng thái theo thời gian thực giữa payment và booking, đồng thời tách biệt domain service cho Pricing, Booking và Payment để tăng độ ổn định và khả năng mở rộng.',
+      'Thiết kế payment flow theo mô hình idempotent + retry-safe cho luồng thanh toán đa quốc gia (Stripe, PayPal, SePay) — xử lý webhook với cơ chế deduplication, loại trừ hoàn toàn rủi ro duplicate transaction trong môi trường phân tán.',
+      'Xây dựng real-time state synchronization giữa Payment ↔ Booking bằng event-driven pattern; phân tách domain service độc lập (Pricing / Booking / Payment) theo DDD, đưa tỷ lệ lệch trạng thái đơn hàng về gần 0%.',
     ],
-    tags: ['Stripe', 'PayPal', 'SePay', 'DDD', 'SignalR'],
+    tags: ['Stripe', 'PayPal', 'SePay', 'DDD', 'Idempotency', 'Event-Driven', 'SignalR'],
   },
   {
-    portName: 'Isle of Carbon Ledger',
+    portName: 'Carbon Ledger — GHG Inventory',
     coords: '10°47\'N  106°42\'E',
-    subtitle: 'Government Greenhouse System',
+    subtitle: 'National Greenhouse Gas Reporting System · Government',
     icon: 'ri-leaf-line',
-    year: '2022',
+    year: '2022 – 2023',
     points: [
-      'Áp dụng DDD-lite để tách biệt nghiệp vụ tính toán phát thải và tối ưu SQL query cùng indexing, giúp rút ngắn đáng kể thời gian tổng hợp báo cáo.',
-      'Thiết kế dashboard theo hướng linh hoạt và dễ mở rộng, hỗ trợ hệ thống thích ứng tốt hơn với nhu cầu triển khai cho nhiều đơn vị và lĩnh vực quản lý.',
+      'Áp dụng DDD-lite để cô lập hoàn toàn domain logic tính toán phát thải khỏi tầng infrastructure; kết hợp SQL indexing strategy và query restructuring giúp giảm thời gian tổng hợp báo cáo từ 50% đến 70%.',
+      'Thiết kế kiến trúc dashboard theo nguyên tắc open/closed — module mới từ các bộ ngành được onboard mà không chạm vào core, đảm bảo khả năng mở rộng dài hạn cho hệ thống cấp quốc gia.',
     ],
-    tags: ['DDD-lite', 'SQL Optimization', 'Dashboard', 'Reporting'],
+    tags: ['DDD-lite', 'SQL Optimization', 'Modular Architecture', 'Gov Report', 'Multi-Agency'],
   },
   {
-    portName: 'Harbor of Iron Grid',
+    portName: 'Iron Grid — Healthcare & Power',
     coords: '16°04\'N  108°13\'E',
-    subtitle: 'Healthcare & Power Grid',
+    subtitle: 'Hospital Guarantee & Power Grid Digitization · AMITECH',
     icon: 'ri-hospital-line',
-    year: '2023',
+    year: '2023 – nay',
     points: [
-      'Xây dựng API Gateway kết nối nhiều hệ thống y tế, kết hợp background workers và WebSocket để xử lý các luồng đồng bộ thời gian thực.',
-      'Chuẩn hóa dữ liệu geospatial và tối ưu cấu trúc API, cải thiện hiệu năng hiển thị biểu đồ và trải nghiệm sử dụng trên frontend.',
+      'Xây dựng API Gateway tập trung điều phối đa hệ thống y tế; triển khai background workers kết hợp WebSocket (SignalR) để sync dữ liệu bảo lãnh viện phí và cập nhật trạng thái realtime tới client.',
+      'Chuẩn hóa geospatial data (GeoJSON → normalized schema) và tái cấu trúc API response format, cải thiện đáng kể tốc độ render biểu đồ Highcharts trên dashboard lưới điện phân phối.',
     ],
-    tags: ['API Gateway', 'WebSocket', 'Highcharts', 'Geospatial'],
+    tags: ['API Gateway', 'WebSocket', 'SignalR', 'Highcharts', 'GeoJSON', 'Background Workers'],
   },
 ];
 
@@ -231,7 +231,7 @@ export default function Experience() {
               className="text-sm leading-relaxed italic"
               style={{ color: '#6B4820', fontFamily: '"Be Vietnam Pro", sans-serif', maxWidth: 380 }}
             >
-              "Hành trình phát triển chuyên môn qua các hệ thống thực tế, nơi mỗi giai đoạn đều góp phần mở rộng tư duy kỹ thuật và năng lực triển khai."
+              "4+ năm xây dựng hệ thống thực tế với quy mô doanh nghiệp — từ payment platform đa quốc gia, báo cáo cấp chính phủ, đến hạ tầng y tế và lưới điện. Mỗi dự án là một bài toán kiến trúc cụ thể, không phải bài tập kỹ thuật."
             </p>
 
             <div className="mt-4 flex items-center gap-3">
@@ -402,7 +402,7 @@ export default function Experience() {
                   border: '1px dashed rgba(58,40,16,0.2)',
                 }}
               >
-                ✦ &nbsp;Hành trình vẫn đang tiếp tục, với những bài toán mới và quy mô lớn hơn ở phía trước.
+                ✦ &nbsp;Đang định hướng Solution Architect — thiết kế hệ thống từ bài toán nghiệp vụ đến vận hành thực tế.
               </span>
             </div>
           </motion.div>

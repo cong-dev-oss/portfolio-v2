@@ -273,6 +273,79 @@
   height: 100%;
 }
 
+/* Mobile: pin route to bottom strip — never overlaps hero title */
+@media (max-width: 767px) {
+  /* On mobile hero is full viewport height */
+  .hero-section {
+    position: relative;
+    height: 100svh;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  /* Title layout adjustments — positioning handled by TSX inline style (isMobile) */
+  .hero__title-wrap {
+    /* centering via inline style; only override font/gap here */
+    gap: 8px;
+  }
+
+  /* Slightly smaller title font on narrow screens */
+  .hero__title {
+    font-size: clamp(2.2rem, 9vw, 3rem);
+  }
+
+  .hero__title-divider {
+    width: 220px;
+  }
+
+  .hero__title-tagline {
+    max-width: 84vw;
+    font-size: 0.78rem;
+    border-left: none;
+    border-top: 1px solid rgba(201,162,39,0.25);
+    padding-left: 0;
+    padding-top: 10px;
+    text-align: center;
+  }
+
+  /* Hide quill — wastes vertical space on mobile */
+  .hero-quill-decor {
+    display: none;
+  }
+
+  /* Timeline: allow it to fill the screen again for the vertical path */
+  .hero-route-wrap {
+    inset: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+    transform: none !important;
+  }
+
+  /* Compass: small maritime detail tucked away */
+  .hero-compass-wrap {
+    width: 60px;
+    height: 60px;
+    bottom: 24px;
+    right: 16px;
+    opacity: 0.5;
+    z-index: 4;
+  }
+
+  /* Scroll hint at the very bottom */
+  .hero-scroll-down {
+    bottom: 20px;
+    gap: 4px;
+  }
+
+  .hero-map-route-svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
 /* Pulsing rings */
 .pulse-ring-1 {
   animation: pulseRing 2.5s ease-out infinite;
