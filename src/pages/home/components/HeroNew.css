@@ -186,19 +186,36 @@
   justify-content: center;
 }
 
-/* Map background (zoom target via JS) */
+/* Map background — Ken Burns ambient (GPU composited, no JS needed) */
 .hero__map-bg {
   position: absolute;
   inset: 0;
   background-image: url("https://readdy.ai/api/search-image?query=ancient%20nautical%20sea%20chart%20parchment%20paper%20old%20map%20compass%20rose%20wind%20rose%20coastlines%20ocean%20maritime%20vintage%20sepia%20aged%20yellowed%20historical%20cartography%20detailed%20hand%20drawn%20illustration%20exploration%20routes&width=1920&height=1080&seq=nautical-map-bg-hero-001&orientation=landscape");
-  background-size: cover;
+  background-size: 120%;
   background-position: center center;
   background-repeat: no-repeat;
   opacity: 0.3;
   filter: sepia(0.35) brightness(0.65);
   transform-origin: center center;
-  will-change: transform;
-  transform: scale(1);
+  will-change: transform, background-position;
+  animation: heroKenBurns 28s ease-in-out infinite alternate;
+}
+
+@keyframes heroKenBurns {
+  0%   { transform: scale(1.00); background-position: 52% 48%; }
+  25%  { transform: scale(1.06); background-position: 54% 50%; }
+  50%  { transform: scale(1.10); background-position: 48% 52%; }
+  75%  { transform: scale(1.06); background-position: 50% 48%; }
+  100% { transform: scale(1.00); background-position: 52% 50%; }
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .hero__map-bg {
+    animation: none;
+    background-size: cover;
+    background-position: center center;
+  }
 }
 
 /* Vignette overlay */
@@ -506,6 +523,9 @@
 ══════════════════════════════════════════ */
 .section-stick-port {
   background: var(--port-navy-deep);
+  overflow-x: hidden;   /* guard against child overflow on mobile */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .prologue-header {
@@ -542,16 +562,23 @@
   line-height: 2;
   color: rgba(232,220,180,0.88);
   font-size: clamp(1.1rem, 2.2vw, 1.55rem);
-  word-break: normal;
-  overflow-wrap: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
   white-space: normal;
+  max-width: 100%;
+  /* JS sets initial opacity to 0 then reveals via IntersectionObserver */
+  opacity: 0;
 }
 
+/* ─── Prologue word reveal ─── */
+.word-tok {
+  display: inline-block;
+  /* base state set via JS — JS owns opacity/transform via IntersectionObserver */
+}
+
+/* Legacy char spans — kept so existing #about deeplink path still renders */
 .char { display: inline; }
-
-.char--space {
-  white-space: pre;
-}
+.char--space { white-space: normal; display: inline; }
 
 .route-label-g {
   transition: transform 0.4s ease, opacity 0.4s ease;
@@ -696,6 +723,7 @@
   .hero__title-wrap {
     top: 60px;
     bottom: unset;
+    max-width: calc(100vw - 32px);
   }
 
   .hero-compass-wrap {
@@ -706,7 +734,14 @@
   }
 
   .opacity-reveal {
-    font-size: clamp(0.95rem, 4vw, 1.2rem);
+    font-size: clamp(0.9rem, 3.8vw, 1.1rem);
+    padding: 0 20px;
+    line-height: 1.85;
+    text-align: center;
+  }
+
+  .prologue-header {
     padding: 0 16px;
+    box-sizing: border-box;
   }
 }

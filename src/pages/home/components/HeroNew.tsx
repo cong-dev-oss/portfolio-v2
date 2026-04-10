@@ -349,128 +349,91 @@ export default function HeroNew() {
     return () => { tl.kill(); document.body.style.overflow = ''; };
   }, []);
 
-  /* ── Hero reveal + scroll zoom ── */
+  /* ── Hero reveal + ambient animations (no scroll-pin, mobile-friendly) ── */
   useEffect(() => {
     if (!doorDone) return;
 
-    /* 1. Title slide-in */
-    const isMobile = window.innerWidth <= 768;
-    if (isMobile) {
-      gsap.set(titleWrapRef.current, { opacity: 0, y: -18 });
-      gsap.to(titleWrapRef.current, {
-        opacity: 1, y: 0, duration: 1.1, ease: 'power3.out', delay: 0.4,
-      });
-    } else {
-      gsap.set(titleWrapRef.current, { opacity: 0, x: -28 });
-      gsap.to(titleWrapRef.current, {
-        opacity: 1, x: 0, duration: 1.1, ease: 'power3.out', delay: 0.4,
+    /* 1. Staggered entrance: badge → title → sub → divider → tagline */
+    const titleEl = titleWrapRef.current;
+    if (titleEl) {
+      const children = titleEl.querySelectorAll(
+        '.hero__title-badge, .hero__title, .hero__title-divider, .hero__title-tagline'
+      );
+      gsap.set(titleEl, { opacity: 1 });
+      gsap.set(children, { opacity: 0, y: 24, filter: 'blur(6px)' });
+      gsap.to(children, {
+        opacity: 1, y: 0, filter: 'blur(0px)',
+        duration: 0.9, ease: 'power3.out',
+        stagger: 0.13, delay: 0.35,
+        clearProps: 'filter',
       });
     }
 
     /* 2. Compass appear */
     if (compassWrapRef.current) {
-      gsap.set(compassWrapRef.current, { opacity: 0, scale: 0.8, rotation: -20 });
+      gsap.set(compassWrapRef.current, { opacity: 0, scale: 0.75, rotation: -25 });
       gsap.to(compassWrapRef.current, {
-        opacity: 0.7, scale: 1, rotation: 0,
-        duration: 1.3, ease: 'back.out(1.5)', delay: 0.9,
+        opacity: 0.75, scale: 1, rotation: 0,
+        duration: 1.4, ease: 'back.out(1.6)', delay: 1.0,
       });
     }
 
-    /* 3. ScrollTrigger zoom — pin hero, zoom map dramatically */
-    const ctx = gsap.context(() => {
-      const st = ScrollTrigger.create({
-        trigger: heroSectionRef.current,
-        start: 'top top',
-        end: '+=180%',
-        pin: true,
-        pinSpacing: true,
-        scrub: 0.9,
-        onUpdate: (self) => {
-          const p = self.progress;
+    /* 3. Scroll hint auto-fade after 4 s */
+    const scrollTimer = window.setTimeout(() => {
+      if (scrollHintRef.current) {
+        gsap.to(scrollHintRef.current, { opacity: 0, duration: 0.6, ease: 'power1.in' });
+      }
+    }, 6000);
 
-          /* Map background — zoom in deep */
-          if (mapBgRef.current) {
-            const scale = 1 + p * 0.45;          // 1.0 → 1.45
-            mapBgRef.current.style.transform = `scale(${scale})`;
-          }
-
-          /* Route SVG — subtle scale */
-          if (mapRouteWrapRef.current) {
-            const s = 1 + p * 0.08;
-            mapRouteWrapRef.current.style.transform = `scale(${s})`;
-          }
-
-          /* Vignette deepens */
-          if (mapVignetteRef.current) {
-            const darkBase = 0.25 + p * 0.55;
-            mapVignetteRef.current.style.background = `radial-gradient(ellipse at center, rgba(6,13,31,${darkBase * 0.6}) 0%, rgba(6,13,31,${darkBase}) 55%, rgba(6,13,31,${Math.min(darkBase + 0.15, 1)}) 100%)`;
-          }
-
-          /* Overlay darkens */
-          if (heroOverlayRef.current) {
-            heroOverlayRef.current.style.opacity = String(0.3 + p * 0.55);
-          }
-
-          /* Title fade out after 20% scroll */
-          if (titleWrapRef.current) {
-            const fade = Math.max(0, 1 - (p - 0.18) / 0.3);
-            const moveY = p * -55;
-            const mobile = window.innerWidth <= 768;
-            titleWrapRef.current.style.opacity = String(fade);
-            titleWrapRef.current.style.transform = mobile
-              ? `translateX(-50%) translateY(${moveY}px)`
-              : `translateX(0px) translateY(${moveY}px)`;
-          }
-
-          /* Scroll hint fade out */
-          if (scrollHintRef.current) {
-            scrollHintRef.current.style.opacity = String(Math.max(0, 1 - p * 4));
-          }
-
-          /* Compass drifts slightly */
-          if (compassWrapRef.current) {
-            const drift = p * 12;
-            compassWrapRef.current.style.transform = `rotate(${drift}deg)`;
-          }
-        },
-      });
-
-      return () => { st.kill(); };
-    });
-
-    /* 4. Prologue text reveal */
+    /* 4. Prologue: IntersectionObserver word-by-word reveal (no pin, works on mobile) */
     const text = opacityRevealRef.current;
     if (text) {
-      const chars = text.textContent?.split('') || [];
-      text.innerHTML = chars
-        .map((c) => (c === ' ' ? '<span class="char char--space"> </span>' : `<span class="char">${c}</span>`))
+      const shouldRevealNow = window.location.hash === '#about';
+      /* Split into words (not chars) — far fewer DOM nodes, better perf on mobile */
+      const raw = text.textContent ?? '';
+      text.innerHTML = raw
+        .split(/( +)/)                                       // preserve spaces
+        .map((tok) =>
+          tok.trim() === ''
+            ? tok                                            // raw whitespace
+            : `<span class="word-tok">${tok}</span>`
+        )
         .join('');
-      const charEls = text.querySelectorAll('.char');
-      const shouldRevealImmediately = window.location.hash === '#about';
+      const words = text.querySelectorAll<HTMLElement>('.word-tok');
 
-      if (shouldRevealImmediately) {
-        gsap.set(charEls, { opacity: 1 });
-        gsap.set(text, { opacity: 1, scale: 1, clearProps: 'transform' });
+      if (shouldRevealNow) {
+        words.forEach((w) => { w.style.opacity = '1'; w.style.transform = 'translateY(0)'; });
+        text.style.opacity = '1';
       } else {
-        gsap.set(charEls, { opacity: 0.1 });
-        prologueTriggerRef.current = ScrollTrigger.create({
-          trigger: '.section-stick-port',
-          pin: true,
-          start: 'center center',
-          end: '+=1800',
-          scrub: 1,
-          animation: gsap.timeline()
-            .to(charEls, { opacity: 1, duration: 1, ease: 'none', stagger: 1 })
-            .to({}, { duration: 10 })
-            .to('.opacity-reveal', { opacity: 0, scale: 1.04, duration: 50 }),
+        words.forEach((w) => {
+          w.style.opacity = '0';
+          w.style.transform = 'translateY(10px)';
+          w.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+          w.style.display = 'inline-block';
         });
+        text.style.opacity = '1';
+
+        const io = new IntersectionObserver(
+          (entries) => {
+            if (!entries[0].isIntersecting) return;
+            io.disconnect();
+            words.forEach((w, i) => {
+              window.setTimeout(() => {
+                w.style.opacity = '1';
+                w.style.transform = 'translateY(0)';
+              }, i * 28);                                    // 28 ms stagger per word
+            });
+          },
+          { threshold: 0.25 }
+        );
+        io.observe(text);
       }
     }
 
     return () => {
+      window.clearTimeout(scrollTimer);
       prologueTriggerRef.current?.kill();
       prologueTriggerRef.current = null;
-      ctx.revert();
     };
   }, [doorDone]);
 
@@ -570,15 +533,16 @@ export default function HeroNew() {
         </section>
 
         {/* ── Prologue ── */}
-        <section id="about" className="section-stick-port min-h-screen flex flex-col justify-center items-center px-8">
-          <div className="prologue-header" style={{ maxWidth: '48rem', width: '100%' }}>
+        <section id="about" className="section-stick-port min-h-screen flex flex-col justify-center items-center">
+          <div className="prologue-header" style={{ maxWidth: '48rem', width: '100%', padding: '0 24px', boxSizing: 'border-box' }}>
             <div className="prologue-header__rule" />
             <i className="prologue-header__quill ri-quill-pen-line" />
             <span className="prologue-header__text">Tổng Quan</span>
             <i className="prologue-header__quill ri-quill-pen-line" style={{ transform: 'scaleX(-1)' }} />
             <div className="prologue-header__rule" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,160,60,0.4))' }} />
           </div>
-          <p className="opacity-reveal text-center max-w-4xl leading-loose" ref={opacityRevealRef}>
+          <p className="opacity-reveal text-center leading-loose" ref={opacityRevealRef}
+            style={{ maxWidth: '48rem', width: '100%', padding: '0 24px', boxSizing: 'border-box' }}>
             {SUMMARY_TEXT}
           </p>
         </section>
