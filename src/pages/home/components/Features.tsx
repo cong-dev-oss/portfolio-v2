@@ -1,11 +1,8 @@
 
 import { motion } from 'framer-motion';
-import { useInView } from '../hooks/useInView';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, LineChart, Line, ResponsiveContainer, Tooltip } from 'recharts';
 
 export default function Features() {
-  const [ref, isInView] = useInView({ threshold: 0.2 });
-
   const barData = [
     { name: 'Mon', value: 65 },
     { name: 'Tue', value: 78 },

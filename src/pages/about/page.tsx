@@ -6,56 +6,6 @@ import SEOHead, { SITE_URL } from '@/components/feature/SEOHead';
 import { useEffect, useRef } from 'react';
 
 export default function AboutPage() {
-  const team = [
-    {
-      name: 'Sarah Johnson',
-      role: 'CEO & Founder',
-      image: 'https://readdy.ai/api/search-image?query=Professional%20business%20portrait%20of%20confident%20female%20CEO%20in%20modern%20office%20setting%20with%20natural%20lighting%2C%20wearing%20elegant%20business%20attire%2C%20warm%20smile%2C%20contemporary%20corporate%20environment%20with%20minimalist%20design%20elements%20and%20soft%20neutral%20tones&width=400&height=500&seq=about-ceo-001&orientation=portrait',
-      bio: 'Former VP at Fortune 500 tech company with 15+ years of experience in AI and data analytics.'
-    },
-    {
-      name: 'Michael Chen',
-      role: 'CTO',
-      image: 'https://readdy.ai/api/search-image?query=Professional%20business%20portrait%20of%20Asian%20male%20technology%20executive%20in%20modern%20tech%20office%2C%20wearing%20smart%20casual%20attire%2C%20confident%20expression%2C%20contemporary%20workspace%20with%20clean%20design%20and%20natural%20lighting&width=400&height=500&seq=about-cto-001&orientation=portrait',
-      bio: 'PhD in Machine Learning from MIT. Previously led engineering teams at leading AI startups.'
-    },
-    {
-      name: 'Emily Rodriguez',
-      role: 'Head of Product',
-      image: 'https://readdy.ai/api/search-image?query=Professional%20business%20portrait%20of%20Hispanic%20female%20product%20manager%20in%20contemporary%20office%20space%2C%20wearing%20modern%20business%20casual%20clothing%2C%20friendly%20demeanor%2C%20bright%20workspace%20with%20minimalist%20aesthetic%20and%20soft%20lighting&width=400&height=500&seq=about-product-001&orientation=portrait',
-      bio: 'Product visionary with a track record of launching successful B2B SaaS products used by millions.'
-    },
-    {
-      name: 'David Park',
-      role: 'Head of Design',
-      image: 'https://readdy.ai/api/search-image?query=Professional%20business%20portrait%20of%20male%20creative%20director%20in%20modern%20design%20studio%2C%20wearing%20stylish%20contemporary%20attire%2C%20artistic%20background%20with%20clean%20lines%2C%20natural%20lighting%20and%20neutral%20color%20palette&width=400&height=500&seq=about-design-001&orientation=portrait',
-      bio: 'Award-winning designer who has shaped the user experience for top-tier enterprise software.'
-    }
-  ];
-
-  const values = [
-    {
-      icon: 'ri-lightbulb-line',
-      title: 'Innovation First',
-      description: 'We constantly push boundaries to deliver cutting-edge solutions that transform how businesses operate.'
-    },
-    {
-      icon: 'ri-team-line',
-      title: 'Customer Success',
-      description: 'Your success is our success. We\'re committed to providing exceptional support and value at every step.'
-    },
-    {
-      icon: 'ri-shield-check-line',
-      title: 'Trust & Security',
-      description: 'We prioritize data security and privacy, ensuring your information is always protected and compliant.'
-    },
-    {
-      icon: 'ri-rocket-line',
-      title: 'Continuous Growth',
-      description: 'We believe in constant improvement, both for our product and our team, to better serve you.'
-    }
-  ];
-
   const canvasContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

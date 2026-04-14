@@ -1,12 +1,13 @@
+import type { ElementType, ReactNode } from 'react';
 import './StarBorder.css';
 
 interface StarBorderProps {
-  as?: keyof JSX.IntrinsicElements;
+  as?: ElementType;
   className?: string;
   color?: string;
   speed?: string;
   thickness?: number;
-  children: React.ReactNode;
+  children: ReactNode;
   [key: string]: any;
 }
 

@@ -7,7 +7,7 @@ import CloudsBackground from './components/CloudsBackground';
 import SEOHead, { SITE_URL } from '@/components/feature/SEOHead';
 
 export default function PricingPage() {
-  const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
+  const [billingCycle] = useState<'monthly' | 'annual'>('monthly');
 
   const pricingSchema = {
     '@context': 'https://schema.org',

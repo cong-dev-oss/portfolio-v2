@@ -191,7 +191,8 @@ const projects = [
       'Kiến trúc tách lớp: models · schemas · services · api',
       'Sẵn sàng mở rộng kiểm duyệt nội dung và đánh giá nguồn tin',
     ],
-    linkLabel: 'Self-hosted platform',
+    link: 'http://31.220.88.14:3000/',
+    linkLabel: 'Live Demo',
   },
   {
     title: 'AI Tutor',
@@ -453,7 +454,7 @@ export default function ProjectsAndEducation() {
                       </div>
                       {proj.link ? (
                         <a
-                          href={`https://${proj.link}`}
+                          href={proj.link.startsWith('http') ? proj.link : `https://${proj.link}`}
                           target="_blank"
                           rel="nofollow noreferrer"
                           className="flex items-center gap-2 text-sm px-4 py-2 rounded-sm transition-all whitespace-nowrap cursor-pointer"
@@ -466,7 +467,7 @@ export default function ProjectsAndEducation() {
                           }}
                         >
                           <i className="ri-compass-3-line" />
-                          {proj.link}
+                          {proj.linkLabel || proj.link}
                         </a>
                       ) : (
                         <div

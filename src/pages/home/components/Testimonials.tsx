@@ -1,53 +1,7 @@
 
 import { motion } from 'framer-motion';
-import { useInView } from '../hooks/useInView';
-import { useEffect, useRef } from 'react';
 
 export default function Testimonials() {
-  const [ref, isInView] = useInView({ threshold: 0.2 });
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const scrollContainer = scrollRef.current;
-    if (!scrollContainer) return;
-
-    let animationId: number;
-    let scrollPosition = 0;
-    const scrollSpeed = 0.5;
-
-    const animate = () => {
-      if (scrollContainer) {
-        scrollPosition += scrollSpeed;
-        
-        if (scrollPosition >= scrollContainer.scrollWidth / 2) {
-          scrollPosition = 0;
-        }
-        
-        scrollContainer.scrollLeft = scrollPosition;
-      }
-      animationId = requestAnimationFrame(animate);
-    };
-
-    animationId = requestAnimationFrame(animate);
-
-    const handleMouseEnter = () => {
-      cancelAnimationFrame(animationId);
-    };
-
-    const handleMouseLeave = () => {
-      animationId = requestAnimationFrame(animate);
-    };
-
-    scrollContainer.addEventListener('mouseenter', handleMouseEnter);
-    scrollContainer.addEventListener('mouseleave', handleMouseLeave);
-
-    return () => {
-      cancelAnimationFrame(animationId);
-      scrollContainer.removeEventListener('mouseenter', handleMouseEnter);
-      scrollContainer.removeEventListener('mouseleave', handleMouseLeave);
-    };
-  }, []);
-
   const testimonials = [
     {
       quote: "Insight Flow has completely transformed how we operate. The AI automation saved us over 30 hours per week, allowing our team to focus on strategic initiatives that drive real growth.",
@@ -92,8 +46,6 @@ export default function Testimonials() {
       rating: 5
     }
   ];
-
-  const duplicatedTestimonials = [...testimonials, ...testimonials];
 
   return (
     <section className="py-24 bg-white relative overflow-hidden">

@@ -22,21 +22,6 @@ const featuresList = [
 ];
 
 export default function FeatureComparison() {
-  const features = [
-    { name: 'AI-Powered Insights', us: 'yes', competitorA: 'no', competitorB: 'Limited' },
-    { name: 'Real-time Analytics', us: 'yes', competitorA: 'yes', competitorB: 'no' },
-    { name: 'Natural Language Queries', us: 'yes', competitorA: 'no', competitorB: 'no' },
-    { name: 'Predictive Analytics', us: 'yes', competitorA: 'Limited', competitorB: 'yes' },
-    { name: 'Custom Dashboards', us: 'Unlimited', competitorA: '10', competitorB: '5' },
-    { name: 'Data Sources', us: '100+', competitorA: '50+', competitorB: '25+' },
-    { name: 'Team Collaboration', us: 'yes', competitorA: 'yes', competitorB: 'Limited' },
-    { name: 'Mobile App', us: 'yes', competitorA: 'yes', competitorB: 'no' },
-    { name: 'API Access', us: 'yes', competitorA: 'Enterprise only', competitorB: 'yes' },
-    { name: 'White-label Options', us: 'yes', competitorA: 'no', competitorB: 'Enterprise only' },
-    { name: 'Setup Time', us: '5 minutes', competitorA: '2 hours', competitorB: '1 day' },
-    { name: 'Support Response', us: '&lt; 1 hour', competitorA: '24 hours', competitorB: '48 hours' }
-  ];
-
   return (
     <section className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-6">
