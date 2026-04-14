@@ -3,6 +3,7 @@ import path from 'node:path';
 import { existsSync } from 'node:fs';
 import fs from 'node:fs/promises';
 import puppeteer from 'puppeteer-core';
+import { createBrowserLaunchOptions } from './prerender-config.mjs';
 
 const OUT_DIR = path.resolve(process.cwd(), 'out');
 const HOST = process.env.PRERENDER_HOST || '127.0.0.1';
@@ -205,11 +206,11 @@ async function main() {
       );
     }
 
-    const browser = await puppeteer.launch({
-      headless: true,
-      executablePath,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    });
+    const browser = await puppeteer.launch(
+      createBrowserLaunchOptions({
+        executablePath,
+      })
+    );
 
     try {
       for (const route of ROUTES) {
@@ -230,4 +231,3 @@ main().catch((err) => {
   console.error('[prerender] failed:', err);
   process.exitCode = 1;
 });
-
