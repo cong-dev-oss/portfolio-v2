@@ -160,6 +160,7 @@ const projects = [
     voyageCode: 'VGE-2024-001',
     category: 'Chuyến hành trình cá nhân',
     icon: 'ri-terminal-box-line',
+    image: '/images/devops_illustration.png',
     tags: ['Ubuntu Server', 'Docker', 'Jenkins', 'GitLab CI', 'Cloudflare'],
     logEntries: [
       'Thiết kế và vận hành hạ tầng Ubuntu Server cá nhân với CI/CD pipeline tự động, giúp quy trình triển khai diễn ra nhanh, ổn định và giảm tối đa thao tác thủ công.',
@@ -179,6 +180,7 @@ const projects = [
     voyageCode: 'VGE-2026-002',
     category: 'Nền tảng AI tổng hợp và quản trị tin tức',
     icon: 'ri-newspaper-line',
+    image: '/images/newsai_illustration.png',
     tags: ['Next.js', 'FastAPI', 'PostgreSQL', 'Celery', 'Redis', 'OpenAI API', 'TTS'],
     logEntries: [
       'Xây dựng NewsAI như một nền tảng xử lý và quản trị tin tức theo pipeline hoàn chỉnh, bao gồm crawl bài viết, trích xuất nội dung, tóm tắt bằng AI, tạo audio và theo dõi toàn bộ tiến trình trên giao diện quản trị.',
@@ -199,6 +201,7 @@ const projects = [
     voyageCode: 'VGE-2026-003',
     category: 'Nền tảng học tập AI cá nhân hóa',
     icon: 'ri-book-open-line',
+    image: '/images/aitutor_illustration.png',
     tags: ['.NET 9', 'Semantic Kernel', 'Qdrant', 'SignalR', 'React', 'TypeScript', 'Ollama'],
     logEntries: [
       'Xây dựng AI Tutor như một nền tảng học tập cá nhân hóa, kết hợp Retrieval-Augmented Generation với phương pháp Socratic để tạo trải nghiệm tương tác và dẫn dắt người học theo chiều sâu.',
@@ -411,9 +414,10 @@ export default function ProjectsAndEducation() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: i * 0.1 }}
                 viewport={{ once: true }}
+                className="group"
               >
                 <div
-                  className="rounded-sm overflow-hidden"
+                  className="rounded-sm overflow-hidden flex flex-col md:flex-row"
                   style={{
                     background: 'rgba(255,255,255,0.88)',
                     border: '1.5px solid rgba(255,255,255,0.95)',
@@ -421,31 +425,53 @@ export default function ProjectsAndEducation() {
                     boxShadow: '0 8px 40px rgba(14,58,96,0.2), 0 2px 8px rgba(255,255,255,0.5)',
                   }}
                 >
-                  {/* top accent */}
-                  <div style={{ height: 3, background: 'linear-gradient(90deg, #2A82B8, #5AAAD8, #88CCE8, #5AAAD8, #2A82B8)' }} />
+                  <div className={`w-full md:w-2/5 relative overflow-hidden bg-[#0A4E80] flex-shrink-0 h-[220px] sm:h-[260px] md:h-auto md:min-h-[300px] ${i % 2 === 1 ? 'md:order-2 md:border-l' : 'md:border-r'} border-[rgba(42,130,184,0.15)]`}>
+                    {/* @ts-ignore - Image property exists in object but not strongly typed above */}
+                    {(proj as any).image && (
+                      <img 
+                        src={(proj as any).image} 
+                        alt={proj.title}
+                        className="absolute inset-0 w-full h-full object-cover opacity-[0.55] mix-blend-luminosity filter transition-transform duration-700 group-hover:scale-105" 
+                      />
+                    )}
+                    {/* Overlay gradient */}
+                    <div 
+                      className="absolute inset-0"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(14,58,96,0.65) 0%, rgba(42,130,184,0.25) 100%)'
+                      }}
+                    />
+                    {/* Centered big icon as decoration */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-20 pointer-events-none transition-opacity duration-500 group-hover:opacity-35">
+                      <i className={`${proj.icon} text-[5.5rem] md:text-[7.5rem] text-white`} />
+                    </div>
+                  </div>
 
-                  <div className="p-8">
+                  <div className={`w-full md:w-3/5 p-5 sm:p-6 md:p-8 flex flex-col justify-center relative ${i % 2 === 1 ? 'md:order-1' : ''}`}>
+                    {/* top gradient accent restricted to the content side */}
+                    <div className="absolute top-0 left-0 right-0" style={{ height: 3, background: 'linear-gradient(90deg, #2A82B8, #5AAAD8, #88CCE8, #5AAAD8, #2A82B8)' }} />
+
                     {/* Header */}
-                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
-                      <div className="flex items-start gap-4">
+                    <div className="flex flex-col xl:flex-row xl:items-start justify-between gap-4 sm:gap-5 mb-5 md:mb-6">
+                      <div className="flex items-start gap-3 sm:gap-4">
                         <div
-                          className="w-12 h-12 flex items-center justify-center rounded-sm flex-shrink-0"
+                          className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-sm flex-shrink-0"
                           style={{ background: 'rgba(42,130,184,0.1)', border: '1.5px solid rgba(42,130,184,0.3)' }}
                         >
-                          <i className={`${proj.icon} text-xl`} style={{ color: '#1A6898' }} />
+                          <i className={`${proj.icon} text-lg sm:text-xl`} style={{ color: '#1A6898' }} />
                         </div>
                         <div>
                           <h3
-                            className="text-xl font-bold"
+                            className="text-lg sm:text-xl font-bold leading-tight"
                             style={{ fontFamily: 'Montserrat, sans-serif', color: '#0E3858', letterSpacing: '0.03em' }}
                           >
                             {proj.title}
                           </h3>
-                          <div className="flex items-center gap-2 mt-1">
+                          <div className="flex flex-wrap items-center gap-2 mt-1">
                             <span className="text-xs" style={{ color: 'rgba(42,130,184,0.6)', fontFamily: 'monospace' }}>
                               {proj.voyageCode}
                             </span>
-                            <span className="text-xs" style={{ color: 'rgba(42,130,184,0.4)' }}>·</span>
+                            <span className="text-xs hidden sm:inline" style={{ color: 'rgba(42,130,184,0.4)' }}>·</span>
                             <span className="text-xs italic" style={{ color: 'rgba(30,80,120,0.55)', fontFamily: '"Be Vietnam Pro", sans-serif' }}>
                               {proj.category}
                             </span>
@@ -457,7 +483,7 @@ export default function ProjectsAndEducation() {
                           href={proj.link.startsWith('http') ? proj.link : `https://${proj.link}`}
                           target="_blank"
                           rel="nofollow noreferrer"
-                          className="flex items-center gap-2 text-sm px-4 py-2 rounded-sm transition-all whitespace-nowrap cursor-pointer"
+                          className="flex items-center gap-2 text-sm px-4 py-2 rounded-sm transition-all whitespace-nowrap cursor-pointer hover:bg-[rgba(42,130,184,0.12)] self-start"
                           style={{
                             color: '#1A6898',
                             border: '1px solid rgba(42,130,184,0.35)',
@@ -471,7 +497,7 @@ export default function ProjectsAndEducation() {
                         </a>
                       ) : (
                         <div
-                          className="flex items-center gap-2 text-sm px-4 py-2 rounded-sm whitespace-nowrap"
+                          className="flex items-center gap-2 text-sm px-4 py-2 rounded-sm whitespace-nowrap self-start"
                           style={{
                             color: '#1A6898',
                             border: '1px solid rgba(42,130,184,0.22)',
@@ -486,7 +512,7 @@ export default function ProjectsAndEducation() {
                       )}
                     </div>
 
-                    {/* rope divider */}
+                    {/* divider */}
                     <div className="mb-5" style={{ height: 2, background: 'repeating-linear-gradient(90deg, rgba(42,130,184,0.25) 0, rgba(42,130,184,0.25) 8px, transparent 8px, transparent 14px)' }} />
 
                     {/* Captain's log */}
@@ -496,7 +522,7 @@ export default function ProjectsAndEducation() {
                       </p>
                       <ul className="space-y-3">
                         {proj.logEntries.map((entry, k) => (
-                  <li key={k} className="flex gap-3 text-sm leading-relaxed" style={{ color: '#1A3A5C', fontFamily: '"Be Vietnam Pro", sans-serif' }}>
+                          <li key={k} className="flex gap-3 text-sm leading-relaxed" style={{ color: '#1A3A5C', fontFamily: '"Be Vietnam Pro", sans-serif' }}>
                             <span className="flex-shrink-0 mt-1" style={{ color: '#2A82B8' }}>›</span>
                             {entry}
                           </li>
